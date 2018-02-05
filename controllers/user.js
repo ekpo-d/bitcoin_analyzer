@@ -6,12 +6,12 @@ const mongoose = require("mongoose"),
 const User = require("../models/user");
 
 exports.signup = (req, res) => {
-  User.findOne({$or:[{username: req.body.username}, {email: req.body.email}]}, (err, user) => {
+  User.findOne({}, (err, user) => {
     if (err) {
       apiRepsonse.sendError(err, 500, res);
     }
     if (user) {
-      apiRepsonse.sendError("User exists", 409, res);
+      apiRepsonse.sendError("A user already exists", 409, res);
     } 
     else {
       bcrypt.hash(req.body.password, 10, (err, hash) => {
